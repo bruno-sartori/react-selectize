@@ -1,6 +1,6 @@
 {
-  "name": "react-selectize",
-  "version": "2.1.0",
+  "name": "oton-react-selectize",
+  "version": "0.0.1",
   "description": "A Stateless & Flexible Select component for React inspired by Selectize",
   "main": "src/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "coverage": "istanbul cover _mocha -- test/index.ls --require should --compilers ls:livescript",
     "coveralls": "istanbul cover _mocha -- test/index.ls --require should --compilers ls:livescript  && cat coverage/lcov.info | coveralls"
   },
-  "author": "Furqan Zafar",
+  "author": "Bruno Sartori",
   "dependencies": {
     "prelude-extension": "^0.0.13",
     "prelude-ls": "^1.1.1",
@@ -68,7 +68,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/furqanZafar/react-selectize.git"
+    "url": "https://github.com/bruno-sartori/react-selectize.git"
   },
   "typings": "./src/index.d.ts",
   "keywords": [
