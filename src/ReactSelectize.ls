@@ -185,7 +185,7 @@ module.exports = class ReactSelectize extends React.Component
 
                             on-blur: (e) ~>
                                 # to prevent closing the dropdown when the user tries to click & drag the scrollbar in IE
-                                return if @refs.rs-dropdown-menu and document.active-element == (find-DOM-node @refs.rs-dropdown-menu)
+                                return if @refs.dropdown-menu and document.active-element == (find-DOM-node @refs.dropdown-menu)
 
                                 <~ @close-dropdown
 
@@ -457,14 +457,14 @@ module.exports = class ReactSelectize extends React.Component
 
     # highlight-and-scroll-to-option :: Int, (() -> ())? -> ()
     highlight-and-scroll-to-option: (index, callback = (->)) !->
-        @refs.rs-dropdown-menu.highlight-and-scroll-to-option index, callback
+        @refs.dropdown-menu.highlight-and-scroll-to-option index, callback
 
     # highlight-and-scroll-to-selectable-option :: Int, Int, (Boolean -> ())? -> ()
     highlight-and-scroll-to-selectable-option: (index, direction, callback = (->)) !->
 
         # open dropdown menu
         <~ do ~> if !@props.open then (~> @on-open-change true, it) else (-> it!)
-        @refs.rs-dropdown-menu.highlight-and-scroll-to-selectable-option index, direction, callback
+        @refs.dropdown-menu.highlight-and-scroll-to-selectable-option index, direction, callback
 
     # is-equal-to-object :: Item -> Item -> Boolean
     is-equal-to-object: --> (@props.uid &0) `is-equal-to-object` @props.uid &1
