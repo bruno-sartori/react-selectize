@@ -1,12 +1,13 @@
-{create-class, DOM:{div}} = require \react
+React = require \react
+{div} = require \react-dom-factories
 {is-equal-to-object} = require \prelude-extension
 {cancel-event} = require \./utils
 
 # OptionWrapper & ValueWrapper are used for optimizing performance 
-module.exports = create-class do 
+module.exports = class OptionWrapper extends React.Component
 
     # get-default-porps :: () -> Props
-    get-default-props: ->
+    @default-props =
         # item :: Item
         # on-click :: Event -> Void
         # on-mouse-move :: Event -> Void

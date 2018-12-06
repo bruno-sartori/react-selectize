@@ -1,15 +1,14 @@
 {all, any, drop, camelize, difference, filter, find, find-index, id, last, map, reject} = require \prelude-ls
 {is-equal-to-object} = require \prelude-extension
-{create-factory, DOM:{div, img, span}}:React = require \react
+{create-factory}:React = require \react
+{div, img, span} = require \react-dom-factories
 ReactSelectize = create-factory require \./ReactSelectize
 {cancel-event} = require \./utils
 
-module.exports = React.create-class do
-
-    display-name: \SimpleSelect
+module.exports = class SimpleSelect extends React.Component
 
     # get-default-props :: () -> Props
-    get-default-props: ->
+    @default-props =
         # autofocus :: Boolean
         # cancel-keyboard-event-on-selection :: Boolean
         # class-name :: String
@@ -55,7 +54,17 @@ module.exports = React.create-class do
         # theme :: String
         uid: id # uid :: (Equatable e) => Item -> e
         # value :: Item
-        
+    
+    # get-initial-state :: () -> UIState
+    (props) ->
+        super props
+        this.state =
+            highlighted-uid: undefined
+            open: false
+            scroll-lock: false
+            search: ""
+            value: @props?.default-value
+
 
     # render :: () -> ReactElement
     render: -> 
@@ -310,14 +319,6 @@ module.exports = React.create-class do
             filtered-options
             options
         }
-
-    # get-initial-state :: () -> UIState
-    get-initial-state: ->
-        highlighted-uid: undefined
-        open: false
-        scroll-lock: false
-        search: ""
-        value: @props?.default-value
 
     # first-option-index-to-highlight :: [Item] -> Item -> Int
     first-option-index-to-highlight: (options, value) ->

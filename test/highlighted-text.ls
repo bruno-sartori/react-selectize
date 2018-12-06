@@ -3,12 +3,13 @@ require! \../src/HighlightedText
 {partition-string} = require \prelude-extension
 
 # React
-{create-class, create-element, DOM:{div, option, span}} = require \react
+{create-element} = require \react
+{div, option, span} = require \react-dom-factories
 {find-DOM-node} = require \react-dom
 
 # TestUtils
 {find-rendered-DOM-component-with-class, scry-rendered-DOM-components-with-class, 
-find-rendered-DOM-component-with-tag, Simulate:{change, click, focus, key-down}}:TestUtils = require \react-addons-test-utils
+find-rendered-DOM-component-with-tag, Simulate:{change, click, focus, key-down}}:TestUtils = require \react-dom/test-utils
 
 create-highlighted-text = (props = {}) ->
     TestUtils.render-into-document do 

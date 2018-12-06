@@ -3,9 +3,9 @@
 partition, reject, reverse, Str, sort-by, sum, values} = require \prelude-ls
 
 {clamp, is-equal-to-object} = require \prelude-extension
-{DOM:{div, input, path, span, svg}, create-class, create-factory}:React = require \react
+{create-factory}:React = require \react
+{div, input, path, span, svg} = require \react-dom-factories
 {find-DOM-node} = require \react-dom
-ReactCSSTransitionGroup = create-factory require \react-addons-css-transition-group
 ToggleButton = create-factory require \./ToggleButton
 DropdownMenu = create-factory require \./DropdownMenu
 OptionWrapper = create-factory require \./OptionWrapper
@@ -14,15 +14,13 @@ ResetButton = create-factory require \./ResetButton
 ResizableInput = create-factory require \./ResizableInput
 {cancel-event, class-name-from-object} = require \./utils
 
-module.exports = create-class do
-
-    display-name: \ReactSelectize
+module.exports = class ReactSelectize extends React.Component
 
     # used to figure out if the focus event was triggered by external action or by @focus-on-input!
     focus-lock: false
 
     # get-default-props :: () -> Props
-    get-default-props: ->
+    @default-props =
         anchor: null # :: Item
         autofocus: false
         cancel-keyboard-event-on-selection: true
@@ -139,7 +137,6 @@ module.exports = create-class do
                     do ~>
                         <~ @props.on-anchor-change last @props.values
                         <~ @on-open-change true
-                        @highlight-and-focus!
 
                     # avoid cancelling the event when the dropdown is already open 
                     # as this would block selection of text in the search field
@@ -188,7 +185,7 @@ module.exports = create-class do
 
                             on-blur: (e) ~>
                                 # to prevent closing the dropdown when the user tries to click & drag the scrollbar in IE
-                                return if @refs.dropdown-menu and document.active-element == (find-DOM-node @refs.dropdown-menu)
+                                return if @refs.rs-dropdown-menu and document.active-element == (find-DOM-node @refs.rs-dropdown-menu)
 
                                 <~ @close-dropdown
 
@@ -460,14 +457,14 @@ module.exports = create-class do
 
     # highlight-and-scroll-to-option :: Int, (() -> ())? -> ()
     highlight-and-scroll-to-option: (index, callback = (->)) !->
-        @refs.dropdown-menu.highlight-and-scroll-to-option index, callback
+        @refs.rs-dropdown-menu.highlight-and-scroll-to-option index, callback
 
     # highlight-and-scroll-to-selectable-option :: Int, Int, (Boolean -> ())? -> ()
     highlight-and-scroll-to-selectable-option: (index, direction, callback = (->)) !->
 
         # open dropdown menu
         <~ do ~> if !@props.open then (~> @on-open-change true, it) else (-> it!)
-        @refs.dropdown-menu.highlight-and-scroll-to-selectable-option index, direction, callback
+        @refs.rs-dropdown-menu.highlight-and-scroll-to-selectable-option index, direction, callback
 
     # is-equal-to-object :: Item -> Item -> Boolean
     is-equal-to-object: --> (@props.uid &0) `is-equal-to-object` @props.uid &1

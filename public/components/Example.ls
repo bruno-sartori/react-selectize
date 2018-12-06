@@ -1,10 +1,12 @@
 {filter, find, map, pairs-to-obj} = require \prelude-ls
-{create-factory, DOM:{div, span}}:React = require \react
+{create-factory}:React = require \react
+{div, span} = require \react-dom-factories
 {find-DOM-node} = require \react-dom
 AceEditor = create-factory require \./AceEditor.ls
 {debounce} = require \underscore
+create-react-class = require \create-react-class
 
-module.exports = React.create-class do
+module.exports = create-react-class do
 
     display-name: \Example
 

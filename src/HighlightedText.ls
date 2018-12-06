@@ -1,10 +1,11 @@
-{create-class, DOM:{div, span}}:React = require \react
+React = require \react
+{div, span} = require \react-dom-factories
 {map} = require \prelude-ls
 
-module.exports = create-class do 
+module.exports = class HighlightedText extends React.Component
 
     # get-default-props :: a -> Props
-    get-default-props: ->
+    @default-props =
         partitions: [] # :: [[Int, Int, String]]
         text: ""
         style: {}

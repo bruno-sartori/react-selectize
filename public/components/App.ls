@@ -1,21 +1,22 @@
 require! \fs
 $ = require \jquery-browserify
-require \livescript
-{compile} = require \livescript
+{compile} = require \livescript/lib
 {concat-map, drop, filter, find, fold, group-by, id, keys, last, map, Obj, obj-to-pairs, pairs-to-obj, 
 reject, reverse, Str, sort-by, take, unique,  unique-by, values, zip-with} = require \prelude-ls
 {partition-string} = require \prelude-extension
-{create-factory, DOM:{a, button, div, form, h1, h2, img, input, li, ol, option, span, ul}}:React = require \react
+{create-factory}:React = require \react
+{a, button, div, form, h1, h2, img, input, li, ol, option, span, ul} = require \react-dom-factories
 {find-DOM-node, render} = require \react-dom
+{hashHistory} = require \react-router/lib
 require! \react-router
 Link = create-factory react-router.Link
 Route = create-factory react-router.Route
 Router = create-factory react-router.Router
-create-history = require \history/lib/createHashHistory
 require! \react-tools
 Example = create-factory require \./Example.ls
 {HighlightedText, SimpleSelect, MultiSelect, ReactSelectize} = require \index.ls
 _ = require \underscore
+create-react-class = require \create-react-class
 
 examples = 
     multi:
@@ -207,7 +208,7 @@ This demo shows how to integrate third-party data from cdn.js
             ls: fs.read-file-sync \public/examples/simple/RemoteOptions.ls, \utf8 
         ...
 
-App = React.create-class do
+App = create-react-class do
 
     display-name: \App
 
@@ -252,7 +253,8 @@ App = React.create-class do
                             * id: \livescript
                               name: \Livescript
                               initial-content: ls
-                              on-execute: (content, mount-node) -> eval compile content, {bare: true}
+                              on-execute: (content, mount-node) ->
+                                  eval compile content, {bare: true}
                             * id: \jsx
                               name: \JSX
                               initial-content: jsx
@@ -277,8 +279,9 @@ App = React.create-class do
     # component-did-update :: Props -> Void
     component-did-update: (prev-props) !-> @scroll-to-example!
 
+    console.log(hashHistory);
 render do 
     Router do 
-        history: create-history query-key: false
+        history: hashHistory # query-key: false
         Route path: \/, component: App
     document.get-element-by-id \mount-node
